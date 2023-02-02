@@ -1,0 +1,3 @@
+dryAir.C
+
+EXE = $(FOAM_APPBIN)/dryAir

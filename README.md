@@ -27,9 +27,9 @@ and you can compile the solvers of your interest by navigating inside the src fo
 
 **GEA** has been tested on Centos Stream 8 and OpenFOAM v2106 but it can be compiled on any Linux distribution with a compiled version of OpenFOAM. 
 
-### 3. [Tutorials]
-Tutorials are provided the [**tutorials** subfolder](atmosphere/tutorials/01-densityCurrent).
-* [**Tutorial 1**] In this tutorial it is implemented the numerical solution of a non-linear density current. 
+### 3. Tutorials
+Tutorials are provided in the [**tutorials** subfolder](atmosphere/tutorials).
+* [**Tutorial 1**](atmosphere/tutorials/01-densityCurrent): In this tutorial it is implemented the numerical solution of a non-linear density current. 
 
 ### 4. Authors and contributors
 **GEA** is currently developed and mantained at [SISSA mathLab](http://mathlab.sissa.it/) by [Dr. Michele Girfoglio](mailto:mgirfogl@sissa.it) in collaboration with [Prof. Annalisa Quaini](mailto:quaini@math.uh.edu) under the supervision of [Prof. Gianluigi Rozza](mailto:gianluigi.rozza@sissa.it)
