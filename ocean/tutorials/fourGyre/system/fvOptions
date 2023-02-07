@@ -1,0 +1,74 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      fvOptions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+energySource
+    {
+        type            scalarCodedSource;
+        active          true;
+        name            forcingTerm;
+        selectionMode   all;
+
+        scalarCodedSourceCoeffs
+        {
+            fields  (q);
+            selectionMode   all;
+
+            codeInclude
+            #{
+            #};
+            codeCorrect
+            #{
+                Pout<< "**codeCorrect**" << endl;
+            #};
+            codeAddSup
+            #{
+                const Time& time = mesh().time();
+                scalarField& qeForce = eqn.source();
+
+                // Extract y-components of the cell centers
+                const scalarField& celly = mesh_.C().component(1);
+
+                if (time.value() > 0.0)
+                {
+                    forAll(celly, i)
+                    {
+                        qeForce[i] += sin(constant::mathematical::pi*celly[i]);
+                    };
+                }
+                Info<< "**codeAddSup**" << endl;
+            #};
+            codeConstrain
+            #{
+                Info<< "**codeConstrain**" << endl;
+            #};
+            code
+            #{
+                $codeInclude
+                $codeCorrect
+                $codeAddSup
+                $codeConstrain
+            #};
+            
+        }
+        sourceTime
+	    {
+		    $scalarCodedSourceCoeffs;
+	    }
+    }
+
+
+// ************************************************************************* //
