@@ -44,6 +44,7 @@ label vertWallsIndex = mesh.boundaryMesh().findPatchID("verticalWalls");
 label horWallsIndex = mesh.boundaryMesh().findPatchID("horizontalWalls");
 
 // forcing null velocity on the boundary patch
+
 forAll(mesh.boundaryMesh()[vertWallsIndex], faceI)
 {
     curlPsi.boundaryFieldRef()[vertWallsIndex][faceI].component(0) = 0;

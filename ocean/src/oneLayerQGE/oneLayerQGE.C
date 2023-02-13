@@ -84,7 +84,8 @@ int main(int argc, char *argv[])
           + fvm::div(phi, q)
           - fvm::laplacian(1./Re, q)
          ==
-            fvOptions(q)
+            forcingTerm
+          + fvOptions(q)
         );
 
         qEqn.relax();
@@ -104,7 +105,7 @@ int main(int argc, char *argv[])
         );
 
         solve(psiEqn == q);
-
+        
         runTime.write();
 
         Info<< nl << "ExecutionTime = " << runTime.elapsedCpuTime() << " s"

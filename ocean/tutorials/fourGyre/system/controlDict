@@ -63,14 +63,14 @@ functions
                 q
                 {
                     mean           on;
-                    prime2Mean     off;
+                    prime2Mean     on;
                     base           time;
                 }
 
                 psi
                 {
                     mean           on;
-                    prime2Mean     off;
+                    prime2Mean     on;
                     base           time;
                 }
             );

@@ -37,13 +37,20 @@ blocks
 
 boundary
 (
-    walls
+    verticalWalls
     {
         type wall;
         faces
         (
             (0 4 7 3)
             (1 2 6 5)
+        );
+    }
+    horizontalWalls
+    {
+        type wall;
+        faces
+        (
             (3 7 6 2)
             (1 5 4 0)
         );

@@ -22,7 +22,12 @@ pattern
     expressions
     (
         {
-            patch   walls;
+            patch   verticalWalls;
+            target  value;
+            expression #{ (pos().y()) #};
+        }
+        {
+            patch   horizontalWalls;
             target  value;
             expression #{ (pos().y()) #};
         }

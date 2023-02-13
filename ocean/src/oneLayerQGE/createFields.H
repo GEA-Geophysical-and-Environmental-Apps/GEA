@@ -85,5 +85,8 @@ volVectorField psiVector
     dimensionedVector("0", dimless, vector(0, 0, 0))
 );
 
+dimensionedScalar one("one", dimensionSet(0,1,0,0,0,0,0), 1.0);
+volScalarField forcingTerm("forcingTerm", sin(constant::mathematical::pi*mesh.C().component(1)/one));
+
 #include "createPhiCurl.H"
 #include "createFvOptions.H"
