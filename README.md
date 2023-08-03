@@ -39,13 +39,13 @@ Contact us by email for further information or questions about **GEA**, or open 
 ### 5. How to cite
 Most of the theoretical aspects behind GEA are deeply explained in the following works. For this reason, if you use this software, please consider to cite them.
 
-* Girfoglio, Quaini, Rozza. *A POD-Galerkin reduced order model for the Navier–Stokes equations in stream function-vorticity formulation*. Computers & Fluids, vol. 244, p. 105536, 2022. [[DOI](https://doi.org/10.1016/j.compfluid.2022.105536)] [[arXiv](https://arxiv.org/abs/2201.00756)]].
+* Girfoglio, Quaini, Rozza. *A POD-Galerkin reduced order model for the Navier–Stokes equations in stream function-vorticity formulation*. Computers & Fluids, vol. 244, p. 105536, 2022. [[DOI](https://doi.org/10.1016/j.compfluid.2022.105536)] [[arXiv](https://arxiv.org/abs/2201.00756)].
 
-* Girfoglio, Quaini, Rozza. *A novel Large Eddy Simulation model for the Quasi-Geostrophic Equations in a Finite Volume setting*. Journal of Computational and Applied Mathematics, vol. 418, p. 114656, 2023. [[DOI](https://doi.org/10.1016/j.cam.2022.114656)] [[arXiv](https://arxiv.org/abs/2202.00295)]].
+* Girfoglio, Quaini, Rozza. *A novel Large Eddy Simulation model for the Quasi-Geostrophic Equations in a Finite Volume setting*. Journal of Computational and Applied Mathematics, vol. 418, p. 114656, 2023. [[DOI](https://doi.org/10.1016/j.cam.2022.114656)] [[arXiv](https://arxiv.org/abs/2202.00295)].
 
-* Girfoglio, Quaini, Rozza. *A linear filter regularization for POD-based reduced-order models of the quasi-geostrophic equations*. Comptes Rendus Mècanique, p. 1-21, 2023. [[DOI](https://doi.org/10.5802/crmeca.183)] [[arXiv](https://arxiv.org/abs/2211.16851)]].
+* Girfoglio, Quaini, Rozza. *A linear filter regularization for POD-based reduced-order models of the quasi-geostrophic equations*. Comptes Rendus Mècanique, p. 1-21, 2023. [[DOI](https://doi.org/10.5802/crmeca.183)] [[arXiv](https://arxiv.org/abs/2211.16851)].
 
-* Girfoglio, Quaini, Rozza. *Validation of an OpenFOAM-based solver for the Euler equations with benchmarks for mesoscale atmospheric modeling*. AIP Advances, vol. 13, p. 055024, 2023. [[DOI](https://doi.org/10.1063/5.0147457)] [[arXiv](https://arxiv.org/abs/2302.04836)]].
+* Girfoglio, Quaini, Rozza. *Validation of an OpenFOAM-based solver for the Euler equations with benchmarks for mesoscale atmospheric modeling*. AIP Advances, vol. 13, p. 055024, 2023. [[DOI](https://doi.org/10.1063/5.0147457)] [[arXiv](https://arxiv.org/abs/2302.04836)].
 
 ### 6. License
 **GEA** is freely available under the GNU LGPL, version 3.
