@@ -1,0 +1,81 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  v2212
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     oneLayerQGE;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         100;
+
+deltaT          2.5e-5;
+
+writeControl    adjustableRunTime;
+
+writeInterval   0.1;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision   6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+functions
+    {
+    fieldAverages
+        {
+            type                    fieldAverage;
+            libs 	                (libfieldFunctionObjects.so);
+            enabled                 true;
+            timeStart               0;
+            timeEnd                 100;
+            resetOnOutput     	    false;
+            log                     true;
+            writeControl            adjustableRunTime;
+            writeInterval           0.1;
+                
+            fields
+            (
+                q
+                {
+                    mean           on;
+                    prime2Mean     on;
+                    base           time;
+                }
+
+                psi
+                {
+                    mean           on;
+                    prime2Mean     on;
+                    base           time;
+                }
+            );
+        }
+    }
+
+
+// ************************************************************************* //
