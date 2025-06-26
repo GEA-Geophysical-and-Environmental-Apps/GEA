@@ -1,0 +1,4 @@
+SOURCE = \
+StrakaFoam_HB_pot.C \
+
+# sources
