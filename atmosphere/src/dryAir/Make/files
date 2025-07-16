@@ -1,3 +1,4 @@
 dryAir.C
 
-EXE = $(FOAM_APPBIN)/dryAir
+EXE = /scratch/tandena/AMR_GEA-v2.0/GEA/atmosphere/src/dryAir/dryAir
+

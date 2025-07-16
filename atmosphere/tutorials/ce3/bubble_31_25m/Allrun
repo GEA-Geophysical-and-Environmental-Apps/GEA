@@ -1,0 +1,25 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+touch bubble.foam
+runApplication blockMesh
+#cp 0/T_template 0/T
+cp 0/ph_rgh_template 0/ph_rgh
+#funkySetFields -field T -expression "sqrt(sqr(pos().x - 0) + sqr(pos().y - 2000))<=2000 ? 300 - 9.81*pos().y/1000 +2*(1 -(sqrt(sqr(pos().x -0) + sqr(pos().y - 2000)))/2000) : 300 - 9.81*pos().y/1000" -time 0
+#funkySetFields -field T -expression "sqrt(sqr(pos().x - 0) + sqr(pos().y - 2000))<=2000 ? 2*(1 -(sqrt(sqr(pos().x -0) + sqr(pos().y - 2000)))/2000) : 0" -time 0
+
+#runApplication StrakaFoam
+#funkySetFields -field theta -expression "sqrt(sqr(pos().x - 0) + sqr(pos().y - 2000))<=2000 ? 300 +2*(1 -(sqrt(sqr(pos().x -0) + sqr(pos().y - 2000)))/2000) : 300" -time 0
+#funkySetFields -field T -expression "sqrt(sqr(pos().x - 0) + sqr(pos().y - 2000))<=2000 ? 2*(1 -(sqrt(sqr(pos().x -0) + sqr(pos().y - 2000)))/2000) : 0" -time 0
+
+#runApplication StrakaFoam
+./../../../src/originalCE3/originalCE3
+
+
+
+
+
+#------------------------------------------------------------------------------

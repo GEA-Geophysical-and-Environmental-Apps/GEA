@@ -1,0 +1,21 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+touch dry.foam
+
+runApplication blockMesh
+echo "copy ph_rgh_template and ph_rgh"
+cp 0/ph_rgh_template 0/ph_rgh
+#runApplication $(getApplication)
+
+./../../src/dryAir/dryAir
+
+
+
+
+
+
+#------------------------------------------------------------------------------

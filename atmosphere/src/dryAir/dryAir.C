@@ -35,6 +35,9 @@ Description
 #include "volPointInterpolation.H"
 #include "primitivePatchInterpolation.H"
 
+#include "dynamicFvMesh.H"              // aggiunta per AMR classico 
+#include "dynamicRefineFvMesh.H"        // aggiunta per AMR classico
+#include "CorrectPhi.H"                 // aggiunta per correggere il flusso
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -49,16 +52,19 @@ int main(int argc, char *argv[])
 
     #include "postProcess.H"
 
-    #include "addCheckCaseOptions.H"
     #include "setRootCaseLists.H"
-    #include "createTime.H"
-    #include "createMesh.H"
-    #include "createControl.H"
-    #include "createFields.H"
-    #include "createFieldRefs.H"
+    #include "createTime.H"                 // creato: runTime
+    #include "addCheckCaseOptions.H"
+    //#include "createMesh.H"               // modifica
+    #include "createDynamicFvMesh.H"        // aggiunta. creato: mesh, reference a oggetto mesh dinamica
+    #include "createDyMControls.H"          // aggiunta. crea tre boolean "correctPhi" - "checkMeshCourantNo" - "moveMeshOuterCorrectors"
     #include "initContinuityErrs.H"
-    #include "createTimeControls.H"
-    #include "compressibleCourantNo.H" 
+    //#include "createControl.H"            // modifica
+    #include "createFields.H"
+    #include "createFieldRefs.H"            // creato: psi (come const object!)
+    //#include "createTimeControls.H"       // modifica
+    #include "createRhoUfIfPresent.H"       // aggiunta. crea surfaceVectorField rhoUf = fvc::interpolate(rho*U) 
+    #include "compressibleCourantNo.H"
     #include "setInitialDeltaT.H"
 
     turbulence->validate();
@@ -70,17 +76,41 @@ int main(int argc, char *argv[])
         #include "readTimeControls.H"
         #include "compressibleCourantNo.H"
         #include "setDeltaT.H"
+        #include "readDyMControls.H"         // aggiunta
+         
+        // aggiunto blocco che calcola divrhoU. originariamente era un autoPtr<volScalarField> divrhoU;
+        // Store divrhoU from the previous mesh so that it can be mapped
+        // and used in correctPhi to ensure the corrected phi has the
+        // same divergence
+
+        volScalarField divrhoU
+        (
+            IOobject
+            (
+                "divrhoU",
+                runTime.timeName(),
+                mesh,
+                IOobject::READ_IF_PRESENT,
+                IOobject::AUTO_WRITE
+            ),
+            fvc::div(fvc::absolute(phi, rho, U)) 
+        );
 
         ++runTime;
 
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-        #include "rhoEqn.H"
+        //#include "rhoEqn.H" spostata nella sola prima iterazione del pimple
 
         // --- Pressure-velocity PIMPLE corrector loop
         while (pimple.loop())
-        {  
+        {   
 
+            if(pimple.firstIter())
+            {
+                #include "rhoEqn.H"
+            }
+            
             #include "UEqn.H"
             #include "EEqn.H"
 
@@ -88,12 +118,22 @@ int main(int argc, char *argv[])
             while (pimple.correct())
             {
                 #include "pEqn.H"
+
+                /*
+                Info << "Magnitude of rAU: " << max(mag(rAU)) << endl;
+                Info << "Magnitude of psip0: " << max(mag(psip0)) << endl;
+                Info << "Magnitude of rhorAUf: " << max(mag(rhorAUf)) << endl; 
+                Info << "Magnitude of HbyA: " << max(mag(HbyA)) << endl; 
+                Info << "Magnitude of phiHbyA: " << max(mag(phiHbyA)) << endl;
+                Info << "Magnitude of phig: " << max(mag(phig)) << endl;
+                */  
             }
 
             if (pimple.turbCorr())
             {
                 turbulence->correct();
             }
+
         }
 
         rho = thermo.rho(); 
@@ -103,7 +143,71 @@ int main(int argc, char *argv[])
 
         // --- Computation of the potential temperature field
         theta = thermo.T()/Exner;
-	
+
+        // --- Computation of the gradient of theta
+        gradTheta = fvc::grad(theta);
+        
+        // --- Computation of the magnitude of gradTheta
+        magGradTheta = mag(gradTheta);
+        
+        // --- Computation of the normalized gradTheta
+        alpha = magGradTheta / (max(magGradTheta)+epsilon);	
+
+        // --- Computatino of the magnitude of velocity
+        magU = mag(U);
+
+        // --- Computation of beta
+        beta = magU / (max(magU) + epsilon2);
+        
+        /*
+        Info << "Magnitude of pressure: " << max(mag(p)) << endl;
+        Info << "Magnitude of velocity: " << max(mag(U)) << endl;
+        Info << "Magnitude of density: " << max(mag(rho)) << endl;
+        Info << "Magnitude of psi: " << max(mag(psi))<< endl;
+        Info << "Magnitude of p_rgh: " << max(mag(p_rgh)) << endl;
+        Info << "Magnitude of phi: " << max(mag(phi)) << endl;
+        Info << "Magnitude of Exner: " << max(mag(Exner)) << endl;
+        Info << "Magnitude of Theta: " << max(mag(theta)) << endl;
+        Info << "Magnitude of gradTheta: " << max(mag(gradTheta)) << endl;
+        */
+        
+        
+
+        // ------------------ mesh update block -------------
+        volVectorField rhoU
+        (
+            IOobject
+            (
+                "rhoU",
+                runTime.timeName(),
+                mesh,
+                IOobject::READ_IF_PRESENT,
+                IOobject::AUTO_WRITE
+            ),
+            rho*U
+        );
+            
+        //fvModels.preUpdateMesh(); da errore, in effetti e' models
+
+        mesh.update();
+
+        if (mesh.changing())
+        {
+
+            gh = (g & mesh.C()) - ghRef;
+            ghf = (g & mesh.Cf()) - ghRef;  
+
+            MRF.update();
+            
+            if (correctPhi)
+            {
+
+                #include "correctPhi.H"                    
+
+            }
+        }
+        // ------------------------------------------------------
+        
 
         runTime.write();
 

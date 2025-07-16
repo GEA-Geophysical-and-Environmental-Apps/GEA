@@ -38,6 +38,57 @@ volScalarField theta
     mesh
 );
 
+// aggiunta. campo gradiente di theta
+volVectorField gradTheta
+(
+    IOobject
+    (
+        "gradTheta",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    fvc::grad(theta)
+);
+
+// aggiutno compo magnitude gradiente di theta
+volScalarField magGradTheta
+(
+    IOobject
+    (
+        "magGradTheta",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mag(gradTheta)
+);
+
+// aggiuntno sclare SMALL con le dimensioni fisiche giuste
+const dimensionedScalar epsilon
+(
+    "epsilon",
+    magGradTheta.dimensions(), 
+    SMALL                       
+);
+
+// aggiunto il gradiente normalizzato
+volScalarField alpha
+(
+    IOobject
+    (
+        "alpha",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    magGradTheta / (max(magGradTheta) + epsilon)
+);
+
+
 volScalarField rho
 (
     IOobject
@@ -63,6 +114,44 @@ volVectorField U
         IOobject::AUTO_WRITE
     ),
     mesh
+);
+
+
+
+// aggiunto campo scalare magnetudo velocita
+volScalarField magU
+(
+    IOobject
+    (
+        "magU",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mag(U)
+);
+
+// aggiuntno sclare SMALL con le dimensioni fisiche giuste
+const dimensionedScalar epsilon2
+(
+    "epsilon2",
+    magU.dimensions(), 
+    SMALL                       
+);
+
+// aggiunto campo scalare magnetudo velocita normalizzata
+volScalarField beta
+(
+    IOobject
+    (
+        "beta",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    magU / (max(magU) + epsilon2)
 );
 
 #include "compressibleCreatePhi.H"
@@ -124,10 +213,23 @@ mesh.setFluxRequired(p_rgh.name());
 
 volScalarField Exner("Exner", Foam::pow(p/pRef, (thermo.Cp()-thermo.Cv())/thermo.Cp()));
 
-#include "phrghEqn.H"
+#include "phrghEqn.H" // risolve il sistema idrostatico
+
+//Info<< "Creating field dpdt\n" << endl; modifica, prima venica creata dpdt dentro a questo include, ora in modo esplicito
+//#include "createDpdt.H"
 
 Info<< "Creating field dpdt\n" << endl;
-#include "createDpdt.H"
+volScalarField dpdt
+(
+    IOobject
+    (
+        "dpdt",
+        runTime.timeName(),
+        mesh
+    ),
+    mesh,
+    dimensionedScalar(p.dimensions()/dimTime, 0)
+);
 
 Info<< "Creating field kinetic energy K\n" << endl;
 volScalarField K("K", 0.5*magSqr(U));
