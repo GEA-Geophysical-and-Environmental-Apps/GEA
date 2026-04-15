@@ -11,7 +11,7 @@
 </p>
 
 ### 0. Introduction
-**GEA** is an implementation in [**OpenFOAM**](https://www.openfoam.com) of several atmosphere and ocean models.
+**GEA** is an implementation in [**OpenFOAM**](https://www.openfoam.com) of several atmosphere and ocean models. The dynamical core of GEA consists of two main mathematical frameworks, the first is designed to simulate global scale dynamics (Quasi-Geostrophic Equations), while the second focuses on mesoscale phenomena (Compressible Euler Equations). Together, these two parts provide a versatile multiscale numerical tool for the simulation of geophysical flows.
 
 ### 1. Prerequisites
 **GEA** requires
@@ -28,24 +28,34 @@ and you can compile the solvers of your interest by navigating inside the src fo
 **GEA** has been tested on Centos Stream 8 and OpenFOAM v2106 but it can be compiled on any Linux distribution with a compiled version of OpenFOAM. 
 
 ### 3. Tutorials
-Tutorials are provided in the [**tutorials** subfolder](atmosphere/tutorials).
-* [**Tutorial 1**](atmosphere/tutorials/01-densityCurrent): In this tutorial it is implemented the numerical solution of a non-linear density current. 
+Tutorials are provided in [atmosphere/tutorials](atmosphere/tutorials) and [ocean/tutorials](ocean/tutorials)
+
+Atmosphere:
+
+* [**Tutorial 1**](atmosphere/tutorials/ce1/01-densityCurrent): In this tutorial it is implemented the numerical solution of a non-linear density current. 
+
+Ocean:
+
+* [**Tutorial 1**](ocean/tutorials/fourGyre): In this tutorial it is implemented the numerical solution of the four gyre wind forcing benchmark.
 
 ### 4. Authors and contributors
-**GEA** is currently developed and mantained at [SISSA mathLab](http://mathlab.sissa.it/) by [Dr. Michele Girfoglio](mailto:mgirfogl@sissa.it) in collaboration with [Prof. Annalisa Quaini](mailto:quaini@math.uh.edu) under the supervision of [Prof. Gianluigi Rozza](mailto:gianluigi.rozza@sissa.it)
+**GEA** is currently developed and mantained at [University of Palermo](http://www.unipa.it) by [Prof. Michele Girfoglio](mailto:michele.girfoglio@unipa.it). 
+<!--in collaboration with [Prof. Annalisa Quaini](mailto:quaini@math.uh.edu) under the supervision of [Prof. Gianluigi Rozza](mailto:gianluigi.rozza@sissa.it) -->
 
 Contact us by email for further information or questions about **GEA**, or open an ''Issue'' on this website. **GEA** is at an early development stage, so contributions improving either the code or the documentation are welcome, both as patches or merge requests on this website. More to come!
 
 ### 5. How to cite
 Most of the theoretical aspects behind GEA are deeply explained in the following works. For this reason, if you use this software, please consider to cite them.
 
-* Girfoglio, Quaini, Rozza. *A POD-Galerkin reduced order model for the Navier–Stokes equations in stream function-vorticity formulation*. Computers & Fluids, vol. 244, p. 105536, 2022. [[DOI](https://doi.org/10.1016/j.compfluid.2022.105536)] [[arXiv](https://arxiv.org/abs/2201.00756)].
+<!--* Girfoglio, Quaini, Rozza. *A POD-Galerkin reduced order model for the Navier–Stokes equations in stream function-vorticity formulation*. Computers & Fluids, vol. 244, p. 105536, 2022. [[DOI](https://doi.org/10.1016/j.compfluid.2022.105536)] [[arXiv](https://arxiv.org/abs/2201.00756)]. -->
 
 * Girfoglio, Quaini, Rozza. *A novel Large Eddy Simulation model for the Quasi-Geostrophic Equations in a Finite Volume setting*. Journal of Computational and Applied Mathematics, vol. 418, p. 114656, 2023. [[DOI](https://doi.org/10.1016/j.cam.2022.114656)] [[arXiv](https://arxiv.org/abs/2202.00295)].
 
-* Girfoglio, Quaini, Rozza. *A linear filter regularization for POD-based reduced-order models of the quasi-geostrophic equations*. Comptes Rendus Mècanique, p. 1-21, 2023. [[DOI](https://doi.org/10.5802/crmeca.183)] [[arXiv](https://arxiv.org/abs/2211.16851)].
+<!--* Girfoglio, Quaini, Rozza. *A linear filter regularization for POD-based reduced-order models of the quasi-geostrophic equations*. Comptes Rendus Mècanique, p. 1-21, 2023. [[DOI](https://doi.org/10.5802/crmeca.183)] [[arXiv](https://arxiv.org/abs/2211.16851)]. -->
 
 * Girfoglio, Quaini, Rozza. *Validation of an OpenFOAM-based solver for the Euler equations with benchmarks for mesoscale atmospheric modeling*. AIP Advances, vol. 13, p. 055024, 2023. [[DOI](https://doi.org/10.1063/5.0147457)] [[arXiv](https://arxiv.org/abs/2302.04836)].
+
+* Girfoglio, Quaini, Rozza. *A comparative computational study of different formulations of the compressible Euler equations for mesoscale atmospheric flows in a finite volume framework*. Computers & Fluids, vol. 288, p. 106510, 2025. [[DOI](https://doi.org/10.1016/j.compfluid.2024.106510)] [[arXiv](https://arxiv.org/abs/2402.18136)].
 
 ### 6. License
 **GEA** is freely available under the GNU LGPL, version 3.
