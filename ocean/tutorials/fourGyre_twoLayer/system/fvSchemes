@@ -1,0 +1,47 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  v2212
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default             Euler;
+}
+
+divSchemes
+{
+    default             Gauss linear;
+}
+
+laplacianSchemes
+{
+    default                                     Gauss linear orthogonal;;
+    laplacian(Ro,psi1)	                        Gauss linear orthogonal; //corrected;
+    laplacian(Ro,psi2)	                        Gauss linear orthogonal; //corrected;
+    laplacian((Fr|(Re*delta)),psi2)	            Gauss linear orthogonal; //corrected;
+    laplacian((Fr|(Re*delta)),psi1)	            Gauss linear orthogonal; //corrected;
+    laplacian((Fr|(Re*(1-delta))),psi1)         Gauss linear orthogonal; //corrected;
+    laplacian((Fr|(Re*(1-delta))),psi2)         Gauss linear orthogonal; //corrected;
+    laplacian((1|Re),q1)                        Gauss linear orthogonal; //corrected;
+    laplacian((1|Re),q2)                        Gauss linear orthogonal; //corrected;
+    laplacian(-sigma,psi2)                      Gauss linear orthogonal; //corrected;
+    laplacian(((Fr|(Re*(1-delta)))-sigma),psi2) Gauss linear orthogonal; //corrected;
+}   
+
+gradSchemes
+{
+    default           Gauss linear;
+}
+
+// ************************************************************************* //
