@@ -1,0 +1,12 @@
+#!/bin/bash
+cp 0.orig/T_template 0/T
+cp 0.orig/rho_template 0/rho
+cp 0.orig/ph_rgh_template 0/ph_rgh
+
+setExprFields -dict system/setBackGroundTemperature
+setExprFields  -dict system/setTemperature
+
+#The rho is setted thanks to 
+
+setExprFields -dict system/setBackGroundRho
+setExprFields -dict system/setRho

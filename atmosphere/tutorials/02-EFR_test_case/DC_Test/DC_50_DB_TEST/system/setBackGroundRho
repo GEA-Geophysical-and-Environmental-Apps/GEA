@@ -1,0 +1,63 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      funkySetFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+expressions
+(
+  rho
+   {
+     field rho;
+     dimensions [1 -3 0 0 0 0 0];
+     
+     constants {
+	centre (0 3000 0);
+     }   
+     
+     variables
+     (
+	"Pg=100000"
+	"theta0=300"
+	"thetac =-15"
+	"rx = 4000"
+	"ry = 2000"
+	"r = sqrt(sqr(pos().x()/rx) + sqr((pos().y()-3000)/ry))"
+        "g = -9.80"
+	"R = 287"
+	"Cp = 1000"
+ 	"CvOR = 2.493"
+        "theta=theta0"
+	"Rtheta= R*theta"
+	"Cptheta=Cp*theta"
+	"PgoRTheta= Pg/Rtheta"
+	"parentesi= 1+g*pos().y()/(Cptheta)"
+	"parentesiElev = pow(parentesi,CvOR)"
+
+	
+     );
+    /*
+    condition
+     #{	
+    #};
+   */
+    expression
+    #{
+     PgoRTheta*parentesiElev
+    #};
+  }
+
+);
+
+// ************************************************************************* //

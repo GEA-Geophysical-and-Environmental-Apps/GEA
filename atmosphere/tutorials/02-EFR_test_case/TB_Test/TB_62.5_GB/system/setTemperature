@@ -1,0 +1,49 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      funkySetFieldsDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+expressions
+(
+  theta
+   {
+     field T;
+     dimensions [0 0 0 1 0 0 0];
+     
+     constants{ 
+     }  
+     
+     variables
+     (
+	"theta0=300"
+	"rx = 4000"
+	"ry = 2000"
+	"r = sqrt ( sqr(pos().x()) + sqr (pos().y() - 2000.0) )"
+        "g = -9.81"
+	"Cp = 1000"
+     );
+    condition
+    #{
+	sqrt ( sqr(pos().x()) + sqr (pos().y() - 2000.0) ) <= 2000
+    #};
+    expression
+    #{
+    theta0 +2.0*(1-r/2000.0)+ g*pos().y()/Cp
+    #};
+  }
+
+);
+
+// ************************************************************************* //
