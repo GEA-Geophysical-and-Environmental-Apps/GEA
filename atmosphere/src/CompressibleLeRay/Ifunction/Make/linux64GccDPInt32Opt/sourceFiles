@@ -1,0 +1,7 @@
+SOURCE = \
+Ifunction.C \
+LinIndFunction.C \
+GradIndFunction.C \
+DeconIndFunction.C \
+
+# sources
